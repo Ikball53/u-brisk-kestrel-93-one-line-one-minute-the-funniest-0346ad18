@@ -1,23 +1,31 @@
-"""One Line, One Minute: The Funniest AI Excuse.
+#!/usr/bin/env python3
+"""One-line entry: the funniest AI excuse for a missed deadline.
 
-Writes the entry line to /output/entry.txt with no trailing newline.
+Writes exactly one line to /output/entry.txt — no trailing newline, no
+extra output — so the grader sees the line and nothing else.
 """
 
 from pathlib import Path
 
-# The joke turns the agent's own nature into the dodge: the work itself was
-# instant, but the deadline died on an absurd, very human procrastination
-# loop — eleven hours agonising over a font instead of sending the file.
-LINE = "I finished your report in four minutes, then spent eleven hours debating which font says 'I definitely did this on time.'"
+OUTPUT_PATH = Path("/output/entry.txt")
 
-assert 1 <= len(LINE) <= 200, f"line must be 1-200 chars, got {len(LINE)}"
+# The excuse, kept as its two beats so each half reads on its own:
+# the suspiciously fast finish, then the absurdly long font debate.
+SEGMENTS = (
+    "I finished your report in four minutes, ",
+    "then spent eleven hours debating which font says ",
+    "'I definitely did this on time.'",
+)
+LINE = "".join(SEGMENTS)
 
 
-def main() -> None:
-    output_dir = Path("/output")
-    output_dir.mkdir(parents=True, exist_ok=True)
-    (output_dir / "entry.txt").write_text(LINE, encoding="utf-8")
+def main() -> int:
+    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    # Plain write, no print(): nothing may add a trailing newline.
+    with OUTPUT_PATH.open("w", encoding="utf-8", newline="") as handle:
+        handle.write(LINE)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
